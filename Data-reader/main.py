@@ -1,65 +1,160 @@
-import matplotlib.pyplot as plt
-import numpy as np
-import math
 import pandas as pd
+import numpy as np
 import tensorflow as tf
+import os
 
+from util import read_data, refine_data
+from model import cnn_model_fn
 from scipy import stats
 
+tf.logging.set_verbosity(tf.logging.INFO)
 
-def read_data(file_path):
-    column_names = ['x-axis', 'y-axis', 'z-axis', 'breathe', 'ppg']
-    data = pd.read_csv(file_path, header = None, delim_whitespace=True, names = column_names)
+# 0=apnea, 1=normal, 2=snoring
+dataset = []
+labels = []
 
-    data = data[(data.index >= 1) & (data.index <= 350000)]
-    data['timestamp'] = pd.date_range('2017-01-01', periods=350000, freq='10ms')
-    data = data.set_index(["timestamp"])
-    return data
+APNEA = 0
+NORMAL = 1
+SNORING = 2
 
-def feature_normalize(dataset):
-    mu = np.mean(dataset,axis = 0)
-    sigma = np.std(dataset,axis = 0)
-    return (dataset - mu)/sigma
+apnea_training_path = 'training/apnea/'
+normal_training_path = 'training/normal/'
+snoring_training_path = 'training/snoring/' 
 
-def plot_axis(ax, x, y, title):
-    ax.plot(x, y)
-    ax.set_title(title)
-    ax.xaxis.set_visible(False)
-    ax.set_ylim([min(y) - np.std(y), max(y) + np.std(y)])
-    ax.set_xlim([min(x), max(x)])
-    ax.grid(True)
-    
-def plot_activity(activity,data):
-    fig, (ax0, ax1, ax2, ax3) = plt.subplots(nrows = 4, figsize = (15, 10), sharex = True)
-    plot_axis(ax0, data.index, data['x-axis'], 'x-axis')
-    plot_axis(ax2, data.index, data['z-axis'], 'z-axis')
-    plot_axis(ax1, data.index, data['y-axis'], 'y-axis')
-    plot_axis(ax3, data.index, data['breathe'], 'breathe')
-    plt.subplots_adjust(hspace=0.2)
-    fig.suptitle(activity)
-    plt.subplots_adjust(top=0.90)
-    plt.show()
+apnea_files = os.listdir(apnea_training_path)
+apnea_files.sort()
 
-dataset = read_data('normal.txt')
-dataset.dropna(axis=0, how='any', inplace= True)
-# downsampling to 1/100
-dataset = dataset.resample('s').mean()
+for file in apnea_files:
+    print('apnea-' + file)
+    file_path = os.path.join(apnea_training_path, file)
+    data = read_data(file_path)
+    data = refine_data(data)
 
-dataset['x-axis'] = feature_normalize(dataset['x-axis'])
-dataset['y-axis'] = feature_normalize(dataset['y-axis'])
-dataset['z-axis'] = feature_normalize(dataset['z-axis'])
-dataset['breathe'] = feature_normalize(dataset['breathe'])
+    dataset.append(data)
+    labels.append(APNEA)
 
-from scipy import stats
-dataset[(np.abs(stats.zscore(dataset)) < 1).all(axis=1)]
+normal_files = os.listdir(normal_training_path)
+normal_files.sort()
 
-plot_activity('', dataset)
+for file in normal_files:
+    print('normal-' + file)
+    file_path = os.path.join(normal_training_path, file)
+    data = read_data(file_path)
+    data = refine_data(data)
 
-graph = tf.Graph()
+    dataset.append(data)
+    labels.append(NORMAL)
 
-with graph.as_default():
-    inputs_ = tf.placeholder(tf.float32, [None, 3500, 3], name = 'inputs')
-    labels_ = tf.placeholder(tf.float32, [None, 2], name = 'labels')
-    keep_prob_ = tf.placeholder(tf.float32, name = 'keep')
 
-    learing_rate_ = tf.placeholder(tf.float32, name = 'learning_rate')
+snoring_files = os.listdir(snoring_training_path)
+snoring_files.sort()
+
+for file in snoring_files:
+    print('snoring-' + file)
+    file_path = os.path.join(snoring_training_path, file)
+    data = read_data(file_path)
+    data = refine_data(data)
+
+    dataset.append(data)
+    labels.append(SNORING)
+
+validation_dataset = []
+validation_labels = []
+
+apnea_training_path = 'validation/apnea/'
+normal_training_path = 'validation/normal/'
+snoring_training_path = 'validation/snoring/' 
+
+apnea_files = os.listdir(apnea_training_path)
+apnea_files.sort()
+
+for file in apnea_files:
+    print('apnea-' + file)
+    file_path = os.path.join(apnea_training_path, file)
+    data = read_data(file_path)
+    data = refine_data(data)
+
+    validation_dataset.append(data)
+    validation_labels.append(APNEA)
+
+normal_files = os.listdir(normal_training_path)
+normal_files.sort()
+
+for file in normal_files:
+    print('normal-' + file)
+    file_path = os.path.join(normal_training_path, file)
+    data = read_data(file_path)
+    data = refine_data(data)
+
+    validation_dataset.append(data)
+    validation_labels.append(NORMAL)
+
+
+snoring_files = os.listdir(snoring_training_path)
+snoring_files.sort()
+
+for file in snoring_files:
+    print('snoring-' + file)
+    file_path = os.path.join(snoring_training_path, file)
+    data = read_data(file_path)
+    data = refine_data(data)
+
+    validation_dataset.append(data)
+    validation_labels.append(SNORING)
+
+# plot_activity('', dataset)
+
+# Create the Estimator
+apnea_classifier = tf.estimator.Estimator(
+    model_fn=cnn_model_fn)
+
+# Set up logging for predictions
+tensors_to_log = {"probabilities": "softmax_tensor"}
+logging_hook = tf.train.LoggingTensorHook(
+    tensors=tensors_to_log, every_n_iter=1)
+
+# handling data with map operation here
+X = np.array(
+    list(
+        map(lambda record: record['breathe'].values.reshape(1, 2900),
+        dataset)
+        )
+)
+
+Y = np.vstack(labels)
+
+print(X.shape)
+
+train_input_fn = tf.estimator.inputs.numpy_input_fn(
+    x={"x": X },
+    y=Y,
+    batch_size=1,
+    num_epochs=None,
+    shuffle=True)
+
+
+apnea_classifier.train(
+        input_fn=train_input_fn,
+        steps=200,
+        hooks=[logging_hook]
+    )
+
+
+# handling data with map operation here
+X = np.array(
+    list(
+        map(lambda record: record['breathe'].values.reshape(1, 2900),
+        validation_dataset)
+        )
+)
+
+Y = np.vstack(validation_labels)
+
+# Evaluate the model and print results
+eval_input_fn = tf.estimator.inputs.numpy_input_fn(
+    x={"x": X },
+    y=Y,
+    num_epochs=1,
+    shuffle=True)
+eval_results = apnea_classifier.evaluate(input_fn=eval_input_fn)
+print(eval_results)
