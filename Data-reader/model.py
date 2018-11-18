@@ -34,7 +34,7 @@ def cnn_model_fn(features, labels, mode):
       inputs=dense, rate=0.4, training=mode == tf.estimator.ModeKeys.TRAIN)
 
   # Logits Layer
-  logits = tf.layers.dense(inputs=dropout, units=3)
+  logits = tf.layers.dense(inputs=dropout, units=2)
 
   predictions = {
       # Generate predictions (for PREDICT and EVAL mode)

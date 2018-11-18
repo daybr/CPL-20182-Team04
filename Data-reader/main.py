@@ -9,6 +9,7 @@ from scipy import stats
 
 tf.logging.set_verbosity(tf.logging.INFO)
 
+
 # 0=apnea, 1=normal, 2=snoring
 dataset = []
 labels = []
@@ -56,7 +57,7 @@ for file in snoring_files:
     data = refine_data(data)
 
     dataset.append(data)
-    labels.append(SNORING)
+    labels.append(NORMAL)
 
 validation_dataset = []
 validation_labels = []
@@ -100,7 +101,7 @@ for file in snoring_files:
     data = refine_data(data)
 
     validation_dataset.append(data)
-    validation_labels.append(SNORING)
+    validation_labels.append(NORMAL)
 
 # plot_activity('', dataset)
 
@@ -113,17 +114,27 @@ tensors_to_log = {"probabilities": "softmax_tensor"}
 logging_hook = tf.train.LoggingTensorHook(
     tensors=tensors_to_log, every_n_iter=1)
 
+
+SIZE = 2900
+
 # handling data with map operation here
 X = np.array(
     list(
-        map(lambda record: record['breathe'].values.reshape(1, 2900),
+        map(lambda record: record['breathe'].values.reshape(1, SIZE),
         dataset)
         )
 )
 
-Y = np.vstack(labels)
+A = X + 0.08 * np.random.uniform(size=X.shape)
+B = X + 0.04 * np.random.uniform(size=X.shape)
+C = X + 0.02 * np.random.uniform(size=X.shape)
 
-print(X.shape)
+X = np.concatenate((A, B, C), axis=0)
+
+#noise = 0.0008*np.asarray(random.sample(range(0,2900),sample))
+
+Y = np.vstack(labels)
+Y = np.concatenate((Y, Y, Y), axis=0)
 
 train_input_fn = tf.estimator.inputs.numpy_input_fn(
     x={"x": X },
@@ -135,7 +146,7 @@ train_input_fn = tf.estimator.inputs.numpy_input_fn(
 
 apnea_classifier.train(
         input_fn=train_input_fn,
-        steps=200,
+        steps=2000,
         hooks=[logging_hook]
     )
 
@@ -143,7 +154,7 @@ apnea_classifier.train(
 # handling data with map operation here
 X = np.array(
     list(
-        map(lambda record: record['breathe'].values.reshape(1, 2900),
+        map(lambda record: record['breathe'].values.reshape(1, SIZE),
         validation_dataset)
         )
 )
