@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:maxHeight="50dp"
+        android:clickable="false">
+
+
+        <ImageView
+            android:id="@+id/imageView1"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:tint="#F44449"
+            android:src="@drawable/gsc_sleep" />
+
+        <com.mikhaellopez.circularprogressbar.CircularProgressBar
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_alignLeft="@+id/imageView1"
+            android:layout_centerVertical="true"
+            app:cpb_progress="30"
+            app:cpb_background_progressbar_color="#DEDEDE"
+            app:cpb_background_progressbar_width="5dp"
+            app:cpb_progressbar_color="#F44449"
+            app:cpb_progressbar_width="10dp">
+        </com.mikhaellopez.circularprogressbar.CircularProgressBar>
+
+    </RelativeLayout>
+
+
+</merge>
