@@ -22,43 +22,47 @@
                 android:layout_height="100dp"
                 >
 
+                <TextView
+                    android:layout_span="2"
+                    android:gravity="left"
+                    android:textStyle="bold"
+                    android:text="My Progress"
+                    android:textSize="20sp" />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="0dp"
+                android:layout_height="100dp"
+                >
+
                 <go.sleep.care.ProcessRing
                     android:layout_width="0dp"
                     android:layout_height="159dp"
-                    android:layout_margin="10dp"
-                    android:gravity="center" />
+                    android:padding="30dp"
+                    />
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="#9C27B0"
-                    android:gravity="center"
-                    android:text="B"
-                    android:textColor="#FFFFFF"
-                    android:textSize="24sp" />
+                <go.sleep.care.ProcessRing
+                    android:layout_width="0dp"
+                    android:layout_height="159dp"
+                    android:padding="30dp"
+                    android:gravity="center" />
             </TableRow>
 
             <TableRow
                 android:layout_width="match_parent"
                 >
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="#3F51B5"
-                    android:gravity="center"
-                    android:text="1"
-                    android:textColor="#FFFFFF"
-                    android:textSize="24sp" />
+                <go.sleep.care.ProcessRing
+                    android:layout_width="0dp"
+                    android:layout_height="159dp"
+                    android:padding="30dp"
+                    android:gravity="center" />
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="#00BCD4"
-                    android:gravity="center"
-                    android:text="2"
-                    android:textColor="#000000"
-                    android:textSize="24sp" />
+                <go.sleep.care.ProcessRing
+                    android:layout_width="0dp"
+                    android:layout_height="159dp"
+                    android:padding="30dp"
+                    android:gravity="center" />
 
             </TableRow>
         </TableLayout>
