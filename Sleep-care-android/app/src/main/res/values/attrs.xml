@@ -8,6 +8,16 @@
     <attr name="cpb_background_progressbar_color" format="color" />
     <attr name="cpb_progressbar_width" format="dimension" />
     <attr name="cpb_background_progressbar_width" format="dimension" />
+
 </declare-styleable>
+
+
+
+<declare-styleable name="ProgressInfo">
+    <attr name="gpi_unit_title" format="string" />
+    <attr name="gpi_background_color" format="color" />
+    <attr name="gpi_background_image" format="reference" />
+</declare-styleable>
+
 
 </resources>

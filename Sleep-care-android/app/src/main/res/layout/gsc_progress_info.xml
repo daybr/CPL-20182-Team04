@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+
+    <android.support.constraint.ConstraintLayout
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+
+        <go.sleep.care.ProcessRing
+            android:id="@+id/progress_ring"
+            android:gravity="center"
+            android:paddingTop="30dp"
+            android:layout_width="match_parent"
+            android:layout_height="130dp"
+            />
+
+
+
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/progress_ring"
+            >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="5"
+                android:id="@+id/info_main1"
+                android:paddingRight="5dp"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:textColor="#8A8A8A"
+                app:layout_constraintHorizontal_chainStyle="packed"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toLeftOf="@+id/info_main2"
+
+                />
+            <TextView
+                android:text="hr."
+                android:id="@+id/info_main2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="15sp"
+                android:textColor="#8A8A8A"
+                app:layout_constraintTop_toTopOf="@+id/info_main1"
+                app:layout_constraintBottom_toBottomOf="@+id/info_main1"
+                app:layout_constraintLeft_toRightOf="@+id/info_main1"
+                app:layout_constraintRight_toRightOf="parent"
+
+                />
+
+            <TextView
+                android:text="3 hours sleep required"
+                android:id="@+id/info_sub"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#A2A2A2"
+                android:textSize="10sp"
+                app:layout_constraintTop_toBottomOf="@+id/info_main1"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+
+                />
+        </android.support.constraint.ConstraintLayout>
+
+
+    </android.support.constraint.ConstraintLayout>
+
+
+
+
+</merge>
