@@ -1,9 +1,10 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".DashboardFragment">
+    tools:context=".UpdateFragment">
 
     <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
         android:id="@+id/card_view"
@@ -36,52 +37,40 @@
             </TableRow>
 
             <TableRow
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <go.sleep.care.ProcessInfo
-                    android:id="@+id/apnea_progress"
-                    app:gpi_background_image="@drawable/gsc_warning"
-                    app:gpi_background_color="#54D0E0"
-                    app:gpi_unit_title="times"
+                <ImageButton
+                    android:id="@+id/select_btn"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    />
-
-                <go.sleep.care.ProcessInfo
-                    android:id="@+id/sleep_progress"
-                    app:gpi_background_image="@drawable/gsc_sleep"
-                    app:gpi_background_color="#FD7371"
-                    app:gpi_unit_title="hours"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    />
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/main_heading"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@android:color/transparent"
+                    android:scaleType="fitCenter"
+                    app:srcCompat="@mipmap/upload_btn" />
             </TableRow>
 
             <TableRow
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <go.sleep.care.ProcessInfo
-                    android:id="@+id/exercise_progress"
-                    app:gpi_background_image="@drawable/gsc_exercise"
-                    app:gpi_background_color="#54D0E0"
-                    app:gpi_unit_title="steps"
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/upload_list"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    />
+                    android:layout_below="@+id/select_btn"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="20dp"></android.support.v7.widget.RecyclerView>
 
-                <go.sleep.care.ProcessInfo
-                    android:id="@+id/bpm_progress"
-                    app:gpi_background_image="@drawable/gsc_bpm"
-                    app:gpi_background_color="#FD7371"
-                    app:gpi_unit_title="bpm"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    />
 
             </TableRow>
         </TableLayout>
+
     </android.support.v7.widget.CardView>
 
-</FrameLayout>
+
+</RelativeLayout>
