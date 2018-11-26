@@ -3,6 +3,7 @@ package go.sleep.care
 import android.os.Bundle
 import android.os.Environment
 import android.support.v4.app.Fragment
+import android.support.v7.widget.AppCompatButton
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.util.Log
@@ -19,18 +20,15 @@ class UpdateFragment : Fragment() {
             inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 
         val view =  inflater.inflate(R.layout.gsc_update_fragment, container, false)
-
-        var gpath: String = Environment.getExternalStorageDirectory().absolutePath
-        var spath = "wwww"
-        var fullpath = File(gpath + File.separator + spath)
-        Log.w("existed??", fullpath.exists().toString())
-        if (fullpath.mkdirs()) {
-            Log.w("created mkdirs0", "success")
-        } else {
-            Log.w("created mkdirs0", "failed")
-        }
-        Log.w("fullPath", "" + fullpath)
         //imageReaderNew(fullpath)
+
+        val button = view.findViewById<AppCompatButton>(R.id.buttonAwesome)
+        button.setOnClickListener {
+            Log.w("hello", "me")
+            data.clear()
+            val uploadList = view.findViewById<RecyclerView>(R.id.upload_list)
+            uploadList.adapter?.notifyDataSetChanged()
+        }
 
 
         return view
@@ -46,6 +44,8 @@ class UpdateFragment : Fragment() {
         uploadList.layoutManager = LinearLayoutManager(activity)
         uploadList.adapter = UpdateAdapter(data)
     }
+
+
 
     private fun imageReaderNew(root: File) {
         val fileList: ArrayList<File> = ArrayList()
