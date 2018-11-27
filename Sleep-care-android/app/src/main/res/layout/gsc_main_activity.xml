@@ -17,10 +17,7 @@
             style="@style/Widget.Shrine.Toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:paddingLeft="12dp"
-            android:paddingEnd="12dp"
-            android:paddingRight="12dp"
-            app:contentInsetStart="0dp"
+            android:paddingStart="105dp"
             app:navigationIcon="@drawable/gsc_branded_menu"
             app:title="@string/gsc_app_name" />
     </android.support.design.widget.AppBarLayout>
@@ -30,6 +27,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/colorPrimaryDark"
+        app:tabTextColor="#FCFCF4"
         app:layout_constraintTop_toBottomOf="@+id/app_bar"
         app:tabMode="fixed" />
 
