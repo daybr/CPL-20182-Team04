@@ -18,7 +18,7 @@
             app:titleTextColor="#FFFFFF"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:paddingStart="105dp"
+            android:paddingStart="100dp"
             app:navigationIcon="@drawable/gsc_branded_menu"
             app:title="@string/gsc_app_name" />
     </android.support.design.widget.AppBarLayout>
