@@ -9,8 +9,8 @@ class MyPagerAdapter(fm: FragmentManager) : FragmentPagerAdapter(fm) {
     override fun getItem(position: Int): Fragment {
         return when (position) {
             0 -> DashboardFragment()
-            1 -> ChartFragment()
-            else -> UpdateFragment()
+            1 -> UpdateFragment()
+            else -> ChartFragment()
         }
     }
 
@@ -21,8 +21,8 @@ class MyPagerAdapter(fm: FragmentManager) : FragmentPagerAdapter(fm) {
     override fun getPageTitle(position: Int): CharSequence {
         return when (position) {
             0 -> "Dashboard"
-            1 -> "Activity"
-            else -> "Update"
+            1 -> "Update"
+            else -> "Activity"
         }
     }
 }
