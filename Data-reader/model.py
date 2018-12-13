@@ -7,24 +7,19 @@ def cnn_model_fn(features, labels, mode):
 
   # Convolutional Layer #1
   conv1 = tf.layers.conv1d(
-      inputs=input_layer,
-      filters=2,
-      kernel_size=4,
-      strides=1,
-      padding="same",
-      activation=tf.nn.relu)
+      inputs=input_layer, filters=2, kernel_size=4,
+      strides=1, padding="same", activation=tf.nn.relu
+      )
 
   # Pooling Layer #1
   pool1 = tf.layers.max_pooling1d(inputs=conv1, pool_size=2, strides=2, padding='same')
 
-  # Convolutional Layer #2 and Pooling Layer #2
+  # Convolutional Layer #2
   conv2 = tf.layers.conv1d(
-      inputs=pool1,
-      filters=4,
-      kernel_size=8,
-      strides=1,
-      padding="same",
-      activation=tf.nn.relu)
+      inputs=pool1, filters=4, kernel_size=8,
+      strides=1, padding="same", activation=tf.nn.relu
+      )
+  #Pooling Layer #2
   pool2 = tf.layers.max_pooling1d(inputs=conv2, pool_size=2, strides=2, padding='same')
 
   # Dense Layer
